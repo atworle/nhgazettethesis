@@ -4,9 +4,9 @@ library(stats)
 library(wordVectors)
 library(dplyr)
 
-m1 <- read.vectors("C:/Users/anton/Desktop/period_models/1756-1764_vectors.bin")
-m2 <- read.vectors("C:/Users/anton/Desktop/period_models/1765-1776_vectors.bin")
-m3 <- read.vectors("C:/Users/anton/Desktop/period_models/1777-1783_vectors.bin")
+m1 <- read.vectors("period_models/1756-1764_vectors.bin")
+m2 <- read.vectors("period_models/1765-1776_vectors.bin")
+m3 <- read.vectors("period_models/1777-1783_vectors.bin")
 
 shared_vocab <- Reduce(intersect, list(rownames(m1), rownames(m2), rownames(m3)))
 

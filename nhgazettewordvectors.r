@@ -6,7 +6,7 @@ library(tidyr)
 
 
 #all of this is to prep my csv, making txt files by set of years
-df <- read.csv("C:/Users/anton/Desktop/NHgazette1756-1783.csv")
+df <- read.csv("NHgazette1756-1783.csv")
 df <- df[, c("sequence", "date", "ocr_eng")]
 
 df<- df %>%
@@ -28,7 +28,7 @@ period_corpus <- df %>%
     group_by(period) %>%
     summarise(text = paste(ocr_eng, collapse = " "), .groups = "drop")
 
-output_dir <- "C:/Users/anton/Desktop/period_corpus"
+output_dir <- "period_corpus"
 dir.create(output_dir, showWarnings = FALSE)
 
 for (i in 1:nrow(period_corpus)) {
@@ -38,15 +38,15 @@ for (i in 1:nrow(period_corpus)) {
 
 
 prep_word2vec(
-    origin = "C:/Users/anton/Desktop/period_corpus/",
-    destination = "C:/Users/anton/Desktop/period_corpus/corpus_clean.txt",
+    origin = "period_corpus/",
+    destination = "period_corpus/corpus_clean.txt",
     lowercase = TRUE,
     bundle_ngrams = 1
 )
 
 model <- train_word2vec(
-  train_file = "C:/Users/anton/Desktop/period_corpus/corpus_clean.txt",
-  output_file = "C:/Users/anton/Desktop/period_corpus/vectorsv2.bin",
+  train_file = "period_corpus/corpus_clean.txt",
+  output_file = "period_corpus/vectorsv2.bin",
   vectors = 25,
   threads = 2,
   window = 7,
@@ -55,8 +55,8 @@ model <- train_word2vec(
 )
 
 periods <- c("1756-1764", "1765-1776", "1777-1783")
-input_dir <- "C:/Users/anton/Desktop/period_corpus"
-output_dir <- "C:/Users/anton/Desktop/period_models"
+input_dir <- "period_corpus"
+output_dir <- "period_models"
 dir.create(output_dir, showWarnings = FALSE)
 
 for (p in periods) {

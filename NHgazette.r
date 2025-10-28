@@ -5,7 +5,7 @@ library(gganimate)
 library(scales)
 
 
-df<-read.csv("C:/Users/anton/Desktop/NHgazette1756-1783.csv")
+df<-read.csv("NHgazette1756-1783.csv")
 df<-df[,c("sequence", "date", "ocr_eng")]
 #just reducing size of df
 
@@ -82,7 +82,7 @@ ggplot(ty.fil, aes(x = year, y = n)) +
     title = "Mentions of 'Tyranny' by Year (1756-1764)",
     y = "Number of Mentions", x = "Year"
   )
-ggsave("C:/Users/anton/Desktop/nhgazettevisualizations/tycount1756-1764.png")
+
 ty.per.year$year <- as.Date(paste0(ty.per.year$year, "0101"), format = "%Y%m%d")
 ty.per.year <- ty.per.year %>%
   bind_rows(
@@ -196,8 +196,8 @@ ggplot(all.freq, aes(x = year, y = frequencypermillion, color = word)) +
     date_breaks = "3 years",
     date_labels = "%Y"
   )
-# Save plot
-ggsave("C:/Users/anton/Desktop/nhgazettevisualizations/ty_lib_freq_yearly.png")
+
+
 
 
 
@@ -222,7 +222,7 @@ ggplot(groupedfreq, aes( x = year, y = frequencypermillion, color = word)) +
     y = "Frequency Per Million Words"
   ) +
   scale_x_continuous(breaks = seq(1756, 1783, by = 5))
-ggsave("C:/Users/anton/Desktop/nhgazettevisualizations/wordfreqyearly.png")
+
 
 
 
@@ -270,7 +270,7 @@ ggplot(combinedcount, aes(x = Year, y = `Ratio of Liberty to Tyranny`)) +
   )
 
 # Save the plot in high resolution
-ggsave("C:/Users/anton/Desktop/nhgazettevisualizations/liberty_tyranny_ratio.png", dpi = 300, width = 8, height = 6)
+
 
 
 

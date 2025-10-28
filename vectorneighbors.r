@@ -1,7 +1,7 @@
  #these neighbors reflect tyranny's semantic neighbors across the entire data set, all 27 years, using this as a way to historically validate the model
 #note: the cosign similarities are fairly low, most at .10-.15, however this is probably due to the low word count coupled with the low frequency of tyranny in the data set, despite this the words can be historically contextualizd, proving the validity
 #bar charts for the entire 27 years, then each period
-model <- read.vectors("C:/Users/anton/Desktop/period_corpus/vectorsv2.bin")
+model <- read.vectors("period_corpus/vectorsv2.bin")
 neighbors <- nearest_to(model, model[["tyranny"]], 20)
 x11()
 df <- data.frame(
@@ -17,10 +17,10 @@ ggplot(df, aes(x = reorder(word, similarity), y = similarity)) +
         x = "Neighbor",
         y = "Cosine Similarity"
     )
-    ggsave("C:/Users/anton/Desktop/nhgazettevisualizations/semanticneighbors1756-1783.png")
+   
 
 
-model2 <- read.vectors("C:/Users/anton/Desktop/period_models/1756-1764_vectors.bin")
+model2 <- read.vectors("period_models/1756-1764_vectors.bin")
 
 neighbors <- nearest_to(model2, model2[["tyranny"]], 20)
 x11()
@@ -37,11 +37,10 @@ ggplot(df, aes(x = reorder(word, similarity), y = similarity)) +
         x = "Neighbor",
         y = "Cosine Similarity"
     )
-ggsave("C:/Users/anton/Desktop/nhgazettevisualizations/semanticneighbors1756-1764.png")
 
 
 
-model3 <- read.vectors("C:/Users/anton/Desktop/period_models/1765-1776_vectors.bin")
+model3 <- read.vectors("period_models/1765-1776_vectors.bin")
 
 
 neighbors <- nearest_to(model3, model3[["tyranny"]], 20)
@@ -59,11 +58,11 @@ ggplot(df, aes(x = reorder(word, similarity), y = similarity)) +
         x = "Neighbor",
         y = "Cosine Similarity"
     )
-ggsave("C:/Users/anton/Desktop/nhgazettevisualizations/semanticneighbors1765-1776.png")
 
 
 
-model4 <- read.vectors("C:/Users/anton/Desktop/period_models/1777-1783_vectors.bin")
+
+model4 <- read.vectors("period_models/1777-1783_vectors.bin")
 
 
 neighbors <- nearest_to(model4, model4[["tyranny"]], 20)
@@ -81,7 +80,7 @@ ggplot(df, aes(x = reorder(word, similarity), y = similarity)) +
         x = "Neighbor",
         y = "Cosine Similarity"
     )
-ggsave("C:/Users/anton/Desktop/nhgazettevisualizations/semanticneighbors1777-1783.png")
+
 
 
 

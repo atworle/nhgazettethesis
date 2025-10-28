@@ -62,7 +62,7 @@ df_clean <- df %>% mutate(across(where(is.list), ~ sapply(.x, function(x) {
   if (length(x) == 0) return("") else paste(x, collapse = "; ")
 })))
 
-write.csv(df_clean, "C:/Users/anton/Desktop/NHgazette1756-1783.csv", row.names = FALSE)
+write.csv(df_clean, "NHgazette1756-1783.csv", row.names = FALSE)
 
 
 

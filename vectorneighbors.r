@@ -26,7 +26,8 @@ ggplot(df, aes(x = reorder(word, similarity), y = similarity)) +
         x = "Neighbor",
         y = "Cosine Similarity"
     )
-   
+    
+dir.create("nhgazettevisualizations", recursive = TRUE, showWarnings = FALSE)
 ggsave("nhgazettevisualizations/semanticneighbors1756-1783.png")
 
 

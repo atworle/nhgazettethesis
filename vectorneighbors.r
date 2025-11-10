@@ -11,7 +11,8 @@ library(tidyverse)
 #note: the cosign similarities are fairly low, most at .10-.15, however this is probably due to the low word count coupled with the low frequency of tyranny in the data set, despite this the words can be historically contextualizd, proving the validity
 #bar charts for the entire 27 years, then each period
 model <- read.vectors("period_corpus/vectorsv2.bin")
-neighbors <- nearest_to(model, model[["tyranny"]], 20)
+neighbors <- nearest_to(model, model[["tyranny"]], 20)\
+
 x11()
 df <- data.frame(
     word = names(neighbors),
@@ -29,7 +30,6 @@ ggplot(df, aes(x = reorder(word, similarity), y = similarity)) +
     
 dir.create("nhgazettevisualizations", recursive = TRUE, showWarnings = FALSE)
 ggsave("nhgazettevisualizations/semanticneighbors1756-1783.png")
-
 
 model2 <- read.vectors("period_models/1756-1764_vectors.bin")
 
@@ -53,7 +53,7 @@ ggsave("nhgazettevisualizations/semanticneighbors1756-1764.png")
 
 model3 <- read.vectors("period_models/1765-1776_vectors.bin")
 
-
+View(neighbors3)
 neighbors3 <- nearest_to(model3, model3[["tyranny"]], 20)
 x11()
 df <- data.frame(
@@ -224,3 +224,4 @@ ggraph(g, layout = "fr") +
         title = paste0("Semantic neighbourhood of '", seed, "'"),
         subtitle = paste0(n1, " first-order / ", n2, " second-order neighbours")
     )
+    ggsave("nhgazettevisualizations/semanticneighbors1756-1783network.png")

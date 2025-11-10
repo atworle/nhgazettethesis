@@ -96,7 +96,7 @@ ty.per.year <- ty.per.year %>%
 lib.per.year <- token.yearly %>%
   filter(word == "liberty") %>%
   count(word)
-
+View(lib.per.year)
 lib.per.year$year <- as.Date(paste0(lib.per.year$year, "0101"), format = "%Y%m%d")
 
 

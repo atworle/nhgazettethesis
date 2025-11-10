@@ -56,14 +56,39 @@ tyr_pop <- c(
 )
 
 tyr_pop
+#plotting cosine sim between tyranny and popery over time
+ggplot(df_tyrpop, aes(x = period, y = cosine, group = 1)) +
+    geom_line(linewidth = 1.2, color = "darkorange") +
+    geom_point(size = 3, color = "firebrick") +
+    ylim(0, 1) +
+    labs(
+        title = "Semantic Association Between 'Tyranny' and 'Popery' Over Time",
+        subtitle = "Cosine similarity within each period's aligned model",
+        x = "Period",
+        y = "Cosine Similarity (Higher = Stronger Association)"
+    ) +
+    theme_minimal(base_size = 14)
 
 
-nearest_from_matrix <- function(M, word, n = 10) {
-    if (!word %in% rownames(M)) stop(sprintf("'%s' not in rownames(M)", word))
-    v <- M[word, , drop = TRUE]
-    sims <- (M %*% v) / (sqrt(rowSums(M^2)) * sqrt(sum(v^2)))
-    sims <- sort(as.vector(sims), decreasing = TRUE)
-    sims <- sims[names(sims) != word] # drop the word itself
-    head(sims, n)
-}
-#need to continue developing this code
+
+#plotting cosine between early tyranny and later periods across models
+df_sim <- data.frame(
+  period = c("1765–1776", "1777–1783"),
+  similarity = c(similarities[1], similarities[2])
+)
+
+ggplot(df_sim, aes(x = period, y = similarity, group = 1)) +
+  geom_line(linewidth = 1.2, color = "steelblue") +
+  geom_point(size = 3, color = "red") +
+  ylim(0, 1) +
+  labs(
+    title = "Semantic Drift of 'Tyranny' Across Periods",
+    subtitle = "Cosine similarity between consecutive time-slices of aligned models",
+    x = "Period (Anchor = Later Slice)",
+    y = "Cosine Similarity (Higher = More Stable Meaning)"
+  ) +
+  theme_minimal(base_size = 14)
+
+
+
+

@@ -140,31 +140,87 @@ dev.off()
 
 edges <- h2_tbl %>%
     select(from, term, sim) %>%
-    filter(from != term)
+    filter(from != term) %>%
+    mutate(weight = 1 - sim)
 
-# Convert cosine *distance* to similarity if necessary
-edges$weight <- 1 - edges$sim
+
 
 # Build graph
-g <- graph_from_data_frame(edges, directed = FALSE)
 
 
-g <- igraph::simplify(g)
+
+g <- igraph::simplify(g, edge.attr.comb = list(weight = "max")) 
 comm <- cluster_louvain(g)
 
 # Plot with ggraph
-ggraph(g, layout = "fr") + # 'fr' = force-directed (Fruchterman–Reingold)
+x11()
+ggraph(g, layout = "fr") +
     geom_edge_link(aes(alpha = weight), color = "gray60") +
     geom_node_point(aes(color = as.factor(membership(comm))), size = 4) +
     geom_node_text(aes(label = name), repel = TRUE, size = 3) +
+    scale_edge_alpha(range = c(0.2, 1)) +
     theme_void() +
-    labs(title = "Semantic Neighborhood of 'tyranny' (Neighbors + Neighbors-of-Neighbors)")
+    labs(title = "Semantic Neighborhood of 'tyranny'")
 
 ggsave("nhgazettevisualizations/semanticneighbors1756-1783network.png")
 
 
 
+#used grok and chatgpt to refine the above network plot
+seed <- "tyranny"
+n1 <- 20 # 1st-order neighbours
+n2 <- 3 # 2nd-order neighbours
 
+# ---- 1st order -------------------------------------------------
+v_seed <- model[[seed]]
+h1 <- nearest_to(model, v_seed, n = n1)
+h1_tbl <- tibble(term = names(h1), sim = as.numeric(h1))
 
+# ---- 2nd order -------------------------------------------------
+h2_tbl <- map_df(h1_tbl$term, function(t) {
+    nn <- nearest_to(model, model[[t]], n = n2)
+    tibble(
+        from = t,
+        term = names(nn),
+        sim  = as.numeric(nn)
+    )
+}) %>%
+    filter(from != term) %>% # drop self-loops
+    mutate(weight = 1 - sim) # edge strength for alpha/width
 
+edges <- h2_tbl %>% select(from, term, sim, weight)
 
+g <- graph_from_data_frame(edges, directed = FALSE)
+
+# OPTIONAL: give every parallel edge a unique ID (helps ggraph)
+E(g)$edge_id <- seq_len(ecount(g))
+
+set.seed(123) # reproducible layout
+x11()
+ggraph(g, layout = "fr") +
+    # ---- draw every edge, thickness/alpha = cosine strength ----
+    geom_edge_link(aes(alpha = weight, width = weight),
+        colour = "gray50", show.legend = FALSE
+    ) +
+
+    # ---- nodes ----------------------------------------------------
+    geom_node_point(aes(color = as.factor(membership(cluster_louvain(g)))),
+        size = 5
+    ) +
+
+    geom_node_text(aes(label = name),
+        repel = TRUE, size = 3.5,
+        max.iter = 2000
+    ) +
+
+    # ---- scales ----------------------------------------------------
+    scale_edge_alpha(range = c(0.1, 1)) +
+    scale_edge_width(range = c(0.3, 2.5)) +
+
+    scale_color_brewer(palette = "Set2") +
+
+    theme_void() +
+    labs(
+        title = paste0("Semantic neighbourhood of '", seed, "'"),
+        subtitle = paste0(n1, " first-order / ", n2, " second-order neighbours")
+    )

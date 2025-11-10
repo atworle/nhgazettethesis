@@ -47,8 +47,8 @@ prep_word2vec(
 model <- train_word2vec(
   train_file = "period_corpus/corpus_clean.txt",
   output_file = "period_corpus/vectorsv2.bin",
-  vectors = 25,
-  threads = 2,
+  vectors = 100,
+  threads = 6,
   window = 7,
   iter = 10,
   negative_samples = 5
@@ -73,8 +73,8 @@ for (p in periods) {
     model <- train_word2vec(
         train_file = clean_file,
         output_file = file.path(output_dir, paste0(p, "_vectors.bin")),
-        vectors = 25,
-        threads = 2,
+        vectors = 100,
+        threads = 6,
         window = 7,
         iter = 10,
         negative_samples = 5

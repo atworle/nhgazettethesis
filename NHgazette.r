@@ -95,7 +95,7 @@ ty.per.year <- token.yearly %>%
 lib.per.year <- token.yearly %>%
   filter(word == "liberty") %>%
   count(year, name = "n")
-
+view(lib.per.year)
 # =========================================================
 # 7. QUICK PLOT: TYRANNY IN FIRST PERIOD
 # =========================================================

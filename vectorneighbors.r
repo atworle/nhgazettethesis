@@ -61,11 +61,15 @@ early_mat <- as.matrix(model_1756_1764[early_terms, ])
 early_pca <- prcomp(early_mat, scale. = FALSE)
 early_scores <- as.data.frame(early_pca$x)
 early_scores$term <- rownames(early_mat)
-
-# x11()
+var_explained <- early_pca$sdev^2 / sum(early_pca$sdev^2)
+x11()
 ggplot(early_scores, aes(PC1, PC2, label = term)) +
     geom_point(size = 3) +
     geom_text(vjust = -0.6, size = 4) +
+    labs(
+        x = paste0("Principle Component 1 (", round(var_explained[1] * 100, 1), "%)"),
+        y = paste0("Principle Component 2 (", round(var_explained[2] * 100, 1), "%)")
+    ) +
     theme_minimal()
 
 ggsave("nhgazettevisualizations/tyrannypca1756-1764.png")

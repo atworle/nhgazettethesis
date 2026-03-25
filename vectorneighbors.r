@@ -26,8 +26,7 @@ neighbors_full_df <- data.frame(
     word = names(neighbors_full),
     similarity = 1 - as.numeric(neighbors_full)
 )
-
-# x11()
+x11()
 ggplot(neighbors_full_df, aes(x = reorder(word, similarity), y = similarity)) +
     geom_col(fill = "steelblue") +
     coord_flip() +
@@ -38,6 +37,24 @@ ggplot(neighbors_full_df, aes(x = reorder(word, similarity), y = similarity)) +
     )
 
 ggsave("nhgazettevisualizations/semanticneighbors1756-1783.png")
+
+full_neighbor_terms <- c("tyranny", neighbors_full_df$word)
+full_neighbor_mat <- as.matrix(model_full[full_neighbor_terms, ])
+full_neighbor_pca <- prcomp(full_neighbor_mat, scale. = FALSE)
+full_neighbor_scores <- as.data.frame(full_neighbor_pca$x)
+full_neighbor_scores$term <- rownames(full_neighbor_mat)
+
+x11()
+ggplot(full_neighbor_scores, aes(x = PC1, y = PC2, label = term)) +
+    geom_point(size = 3) +
+    geom_text(vjust = -0.6) +
+    theme_minimal(base_size = 14) +
+    labs(
+        title = "PCA of Tyranny and Its Nearest Neighbors, 1756-1783",
+        x = "PC1",
+        y = "PC2"
+    )
+ggsave("nhgazettevisualizations/pcaneighbors1756-1783.png")
 
 # =========================================================
 # 2. EARLY PERIOD MODEL: 1756-1764

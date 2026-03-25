@@ -91,7 +91,7 @@ ty.per.month <- token.monthly %>%
 ty.per.year <- token.yearly %>%
   filter(word == "tyranny") %>%
   count(year, name = "n")
-
+  
 lib.per.year <- token.yearly %>%
   filter(word == "liberty") %>%
   count(year, name = "n")

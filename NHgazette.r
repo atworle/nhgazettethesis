@@ -401,7 +401,7 @@ ggplot(standingarmies.yearly, aes(x = year, y = frequencypermillion)) +
   geom_line(linewidth = 1) +
   geom_point(size = 1.8) +
   labs(
-    title = "Frequency of 'Standing Army/Standing Armies' in the New-Hampshire Gazette, 1756–1783",
+    title = "Frequency of 'Standing Army/Armies' in the New-Hampshire Gazette, 1756–1783",
     subtitle = "Occurrences per million words (normalized by total yearly word count)",
     x = "Year",
     y = "Per million words",
@@ -418,7 +418,7 @@ ggplot(standingarmies.yearly, aes(x = year, y = frequencypermillion)) +
   ) +
   theme_classic(base_size = 12) +
   theme(
-    plot.title = element_text(face = "bold", size = 13),
+    plot.title = element_text(face = "bold", size = 11),
     plot.subtitle = element_text(size = 10.5),
     axis.title = element_text(size = 11),
     axis.text = element_text(size = 10),
@@ -427,7 +427,7 @@ ggplot(standingarmies.yearly, aes(x = year, y = frequencypermillion)) +
     axis.ticks = element_line(linewidth = 0.4)
   )
 
-ggsave("nhgazettevisualizations/standingarmiesfreq_nhgazette.png", width = 8, height = 5, dpi = 300)
+ggsave("nhgazettevisualizations/standingarmiesfreq_nhgazette.png", width = 10, height = 5, dpi = 300)
 
 # =========================================================
 # 16. LIBERTY / TYRANNY RATIO

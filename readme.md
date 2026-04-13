@@ -90,7 +90,7 @@ Expected core columns include:
 
 The code assumes that dates are formatted so the year and month can be extracted with substring operations.
 
-## Expected File / Folder Layout
+## Folder Layout
 
 A typical layout for the repository is:
 
